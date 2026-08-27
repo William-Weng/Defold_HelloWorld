@@ -1,0 +1,94 @@
+local CLICK_MOVE = hash("click_move")
+local dprint = require("utility.debug_print")
+
+-- 依你的 Atlas ID 修改：
+local IDLE = hash("idle")
+local WALK = hash("walk")
+
+local function play_animation(self, animation_id)
+	if self.current_animation == animation_id then
+		return
+	end
+
+	self.current_animation = animation_id
+	sprite.play_flipbook("#sprite", animation_id)
+end
+
+local function start_walk_sound(self)
+	if self.is_walk_sound_playing then
+		return
+	end
+
+	self.is_walk_sound_playing = true
+	sound.play("#walk_sound", {
+		gain = 0.3
+	})
+end
+
+local function stop_walk_sound(self)
+	if not self.is_walk_sound_playing then
+		return
+	end
+
+	self.is_walk_sound_playing = false
+	sound.stop("#walk_sound")
+end
+
+function init(self)
+	msg.post(".", "acquire_input_focus")
+
+	dprint.print("init")
+	
+	self.move_speed = 200
+
+	self.is_moving = false
+	self.target_position = go.get_position()
+	self.player_scale = 2.0
+	self.current_animation = nil
+	self.is_walk_sound_playing = false
+
+	go.set_scale(self.player_scale)
+	play_animation(self, IDLE)
+end
+
+function update(self, dt)
+	if not self.is_moving then
+		return
+	end
+
+	local current_position = go.get_position()
+	local to_target = self.target_position - current_position
+	local distance = vmath.length(to_target)
+
+	local step = self.move_speed * dt
+
+	-- 這一幀會走到或超過目標：
+	-- 直接定位、停止，並切回 idle。
+	if distance <= step then
+		go.set_position(self.target_position)
+		self.is_moving = false
+
+		play_animation(self, IDLE)
+		stop_walk_sound(self)
+
+		return
+	end
+
+	-- 尚未到達：走路動畫 + 朝目標移動一小段。
+	play_animation(self, WALK)
+	start_walk_sound(self)
+
+	local direction = vmath.normalize(to_target)
+	local new_position = current_position + direction * step
+
+	go.set_position(new_position)
+end
+
+function on_input(self, action_id, action)
+	if action_id == CLICK_MOVE and action.pressed then
+		self.target_position = vmath.vector3(action.x, action.y, 0)
+		self.is_moving = true
+	end
+
+	return true
+end

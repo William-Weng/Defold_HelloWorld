@@ -1,0 +1,26 @@
+images {
+  image: "/main/player/player.png"
+}
+animations {
+  id: "idle"
+  images {
+    image: "/main/player/player.png"
+  }
+  playback: PLAYBACK_LOOP_FORWARD
+  fps: 12
+}
+animations {
+  id: "walk"
+  images {
+    image: "/main/player/player_walk_01.png"
+  }
+  images {
+    image: "/main/player/player_walk_02.png"
+  }
+  images {
+    image: "/main/player/player_walk_03.png"
+  }
+  playback: PLAYBACK_LOOP_FORWARD
+  fps: 12
+}
+extrude_borders: 2

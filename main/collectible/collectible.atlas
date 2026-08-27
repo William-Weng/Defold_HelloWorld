@@ -1,0 +1,4 @@
+images {
+  image: "/main/collectible/collectible.png"
+}
+extrude_borders: 2

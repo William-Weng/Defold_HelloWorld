@@ -1,0 +1,6 @@
+function init(self)
+	sound.play("#bgm", {
+		gain = 1.0,
+		pan = 0
+	})
+end
