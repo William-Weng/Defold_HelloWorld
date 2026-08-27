@@ -1,13 +1,5 @@
-# Welcome to Defold
+# 用Defold做遊戲, 大家一起來吃生魚片吧
 
-This project was created from the "empty" project template.
+- [教學文章](https://william-weng.github.io/2026/08/用defold做遊戲-大家一起來吃生魚片吧/)
 
-The settings in ["game.project"](defold://open?path=/game.project) are all the default. A bootstrap empty ["main.collection"](defold://open?path=/main/main.collection) is included.
-
-Check out [the documentation pages](https://defold.com/learn) for examples, tutorials, manuals and API docs.
-
-If you run into trouble, help is available in [our forum](https://forum.defold.com).
-
-Happy Defolding!
-
----
+https://github.com/user-attachments/assets/f1ca40e5-16f2-4ebf-a19b-b5af7e63fc75
